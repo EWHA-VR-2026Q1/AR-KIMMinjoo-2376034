@@ -6,11 +6,14 @@ TagManager:
   tags:
   - Tag
   - Target
+  - ClimbableLadder
+  - ClimbableCliff
+  - Teleportable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Interactable
   - Water
   - UI
   - 

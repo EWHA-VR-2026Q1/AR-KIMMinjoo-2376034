@@ -23,9 +23,11 @@ public class Actor_Grabable : MonoBehaviour
     private Rigidbody rb;
     private bool isGrabbed = false;
     private bool isPulling = false;
-    public float pokeForce = 5f;       // 던지는 세기
-    public float releaseForce = 5f;       // 던지는 세기
-    public float upwardForce = 2f;      // 약간 위로 솟구치게 하는 세기
+    //public float pokeForce = 5f;       // 미는 세기
+    //public float releaseForce = 5f;       // 던지는 세기
+    //public float upwardForce = 2f;      // 약간 위로 솟구치게 하는 세기
+    public Vector3 PokeForce = new Vector3(0f, 0f, 10f);
+    public Vector3 ReleaseForce = new Vector3(0f, 1f, 1f);
 
     private void Awake()
     {
@@ -40,11 +42,12 @@ public class Actor_Grabable : MonoBehaviour
 
         // 플레이어로부터 물체 방향으로 힘을 가함
         Vector3 pushDirection = (transform.position - hand.transform.position).normalized;
+        Debug.Log($"[Actor_Grabable] Act_DistancePoke: pushDirection = {pushDirection}");
         rb.isKinematic = false;
         rb.useGravity = true;
-        rb.AddForce(pushDirection * pokeForce, ForceMode.Impulse);
+        rb.AddForce(pushDirection * PokeForce.z, ForceMode.Impulse);
 
-        Debug.Log($"{gameObject.name}를 멀리서 찔러 밀어냈습니다.");
+        Debug.Log($"{gameObject.name}를 {PokeForce.z}만큼 밀어냈습니다.");
         Act_Release();
     }
     public void Act_DistanceGrab(GameObject hand)
@@ -141,7 +144,7 @@ public class Actor_Grabable : MonoBehaviour
 
         rb.drag = releaseDrag;
         rb.angularDrag = releaseAngularDrag;
-        Vector3 forceDirection = hand.transform.forward * releaseForce + Vector3.up * upwardForce;
+        Vector3 forceDirection = hand.transform.forward * ReleaseForce.z + Vector3.up * ReleaseForce.y;
         // Impulse 모드는 순간적인 충격량을 가할 때 적합합니다.
         rb.AddForce(forceDirection, ForceMode.Impulse);
         // 회전력 추가 (물체가 회전하면서 날아가게 해서 더 자연스럽게 연출)

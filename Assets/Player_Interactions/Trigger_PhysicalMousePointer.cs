@@ -1,8 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
-using UnityEditor.EditorTools;
-
 public class Trigger_PhysicalMousePointer : MonoBehaviour
 {
     

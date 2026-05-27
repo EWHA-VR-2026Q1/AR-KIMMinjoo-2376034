@@ -79,7 +79,11 @@ public class ContinuousMoveBehavior : MonoBehaviour
     {
         // 인터페이스를 통해 값을 가져옴
         Vector2 moveInput = input.MoveInput;
-        Vector3 dirInput = transform.forward * moveInput.y + transform.right * moveInput.x;
+        //Vector3 dirInput = transform.forward * moveInput.y + transform.right * moveInput.x;
+
+        Vector3 dirInput = PlayerManager.Instance.GetCamera().forward * moveInput.y + PlayerManager.Instance.GetCamera().right * moveInput.x;
+        //Vector3 dirInput = GetComponent<LookBehavior>().PlayerCamera.forward * moveInput.y + GetComponent<LookBehavior>().PlayerCamera.right * moveInput.x;
+        //Vector3 dirInput = PlayerManager.Instance.PlayerCamera.forward * moveInput.y + PlayerManager.Instance.PlayerCamera.right * moveInput.x;
 
         float speed = input.SprintInput ? RunSpeed : WalkSpeed;
 
@@ -100,7 +104,7 @@ public class ContinuousMoveBehavior : MonoBehaviour
             Debug.Log("Jump!");
             moveVelocity.y = Mathf.Sqrt(JumpHeight * -2f * gravity);
             PlayerManager.Instance.SetMoveState(PlayerMoveState.Air);
-            //currentMoveState = playerState.Air;
+            currentMoveState = playerState.Air;
         }
         else
         {
@@ -111,7 +115,7 @@ public class ContinuousMoveBehavior : MonoBehaviour
         if (!character.isGrounded && moveVelocity.y < 0)
         {
             PlayerManager.Instance.SetMoveState(PlayerMoveState.Air);
-            //currentMoveState = playerState.Air;
+            currentMoveState = playerState.Air;
         }
     }
 
@@ -124,7 +128,7 @@ public class ContinuousMoveBehavior : MonoBehaviour
         moveVelocity.y += gravity * Time.deltaTime;
 
         if (character.isGrounded) PlayerManager.Instance.SetMoveState(PlayerMoveState.Ground);
-        //if (character.isGrounded) currentMoveState = playerState.Ground;
+        if (character.isGrounded) currentMoveState = playerState.Ground;
     }
 
     void MoveVertical()
@@ -146,7 +150,7 @@ public class ContinuousMoveBehavior : MonoBehaviour
             Vector3 jumpDir = -transform.forward + Vector3.up;
             moveVelocity = jumpDir.normalized * Mathf.Sqrt(JumpHeight * -2f * gravity);
             PlayerManager.Instance.SetMoveState(PlayerMoveState.Air);
-            //currentMoveState = playerState.Air;
+            currentMoveState = playerState.Air;
         }
     }
 
